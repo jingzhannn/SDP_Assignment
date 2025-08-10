@@ -3,6 +3,69 @@
 List<User> users = new List<User>();
 List<Restaurant> restaurants = new List<Restaurant>();
 
+void InitializeSampleData()
+{
+    // Sample RestaurantOwner
+    var owner1 = new RestaurantOwner
+    {
+        Username = "owner1",
+        Password = "password1",
+        Email = "owner1@email.com"
+    };
+    var owner2 = new RestaurantOwner
+    {
+        Username = "owner2",
+        Password = "password2",
+        Email = "owner2@email.com"
+    };
+
+    // Sample Customers
+    var customer1 = new Customer
+    {
+        Username = "customer1",
+        Password = "password1",
+        Email = "customer1@email.com"
+    };
+    var customer2 = new Customer
+    {
+        Username = "customer2",
+        Password = "password2",
+        Email = "customer2@email.com"
+    };
+
+    // Sample Menus
+    var menu0 = new RestaurantMenu("Main Menu 1");
+
+    var menu1 = new RestaurantMenu("Main Course");
+    menu1.add(new MenuItem("Chicken Rice", true, 3.5));
+    menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
+
+    var menu1_2 = new RestaurantMenu("Dessert Menu");
+    menu1_2.add(new MenuItem("Ice Cream", true, 2.0));
+    menu1_2.add(new MenuItem("Cake", true, 3.0));
+
+    menu0.add(menu1);
+    menu0.add(menu1_2);
+
+    var menu2 = new RestaurantMenu("Main Menu");
+    menu2.add(new MenuItem("Burger", true, 5.5));
+    menu2.add(new MenuItem("Fries", true, 2.5));
+
+    // Sample Restaurants
+    var restaurant1 = new Restaurant("Haaker", menu0);
+    var restaurant2 = new Restaurant("Mcdooonal", menu2);
+    owner1.restaurant = restaurant1;
+    owner2.restaurant = restaurant2;
+
+    // Add to lists
+    users.Add(owner1);
+    users.Add(owner2);
+    users.Add(customer1);
+    users.Add(customer2);
+    restaurants.Add(restaurant1);
+    restaurants.Add(restaurant2);
+}
+
 void MainMenu()
 {
     Console.WriteLine("======================================");
@@ -81,16 +144,76 @@ User LoginUser()
         return null;
     }
     Console.WriteLine();
-    Console.WriteLine($"Login Successful! Welcome Back {username}!");
-    Console.WriteLine();
+    
     return loggedInUser;
+}
+
+void CreateRestaurant(RestaurantOwner owner)
+{
+    owner.createRestaurant(restaurants);
+}
+
+void ViewAllRestaurants()
+{
+    if (restaurants.Count == 0)
+    {
+        Console.WriteLine("No restaurants available.");
+        return;
+    }
+    foreach (var r in restaurants)
+    {
+        Console.WriteLine($"Restaurant: {r.Name}");
+        r.printMenu();
+        Console.WriteLine();
+    }
+}
+
+void UpdateRestaurantMenu(Restaurant restaurant)
+{
+    Console.WriteLine("What do you want to do?");
+    Console.WriteLine("1. Add Menu or Item");
+    Console.WriteLine("2. Delete Menu or Item");
+    Console.WriteLine("3. Update Item");
+    Console.WriteLine("0. Return to Owner Menu");
+    Console.WriteLine();
+
+    string choice;
+    while (true)
+    {
+        Console.Write("Enter your choice: ");
+        choice = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(choice)) break;
+        Console.WriteLine("Choice cannot be empty.");
+    }
+    Console.WriteLine();
+    switch (choice)
+    {
+        case "1":
+            restaurant.AddMenuOrItem();
+            break;
+        case "2":
+            restaurant.DeleteMenuOrItem();
+            break;
+        case "3":
+            restaurant.updateItem();
+            break;
+        case "0":
+            Console.WriteLine("Returning to Owner Menu...");
+            return;
+        default:
+            Console.WriteLine("Invalid choice. Please try again.");
+            return;
+    }
+    ReturnToMenu();
 }
 
 void RunUserFeatures(User user)
 {
-    if (user is RestaurantOwner owner)
+    while (true)
     {
-        while (true)
+        Console.WriteLine($"Welcome {user.Username}!");
+        Console.WriteLine();
+        if (user is RestaurantOwner owner)
         {
             Console.WriteLine("[1] View Own Restaurant");
             Console.WriteLine("[2] Update Own Restaurant Items");
@@ -117,21 +240,7 @@ void RunUserFeatures(User user)
                 {
                     Console.WriteLine("No restaurant found.");
                 }
-                while (true)
-                {
-                    Console.WriteLine("[R]eturn to Owner Menu. Enter R to RETURN");
-                    Console.Write("Enter your choice: ");
-                    string input = Console.ReadLine();
-                    if (input?.ToUpper() == "R")
-                    {
-                        Console.WriteLine();
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid choice. Please enter R to return.");
-                    }
-                }
+                ReturnToMenu();
             }
             else if (ownerChoice == "2")
             {
@@ -150,108 +259,41 @@ void RunUserFeatures(User user)
                 break;
             }
         }
+        else if (user is Customer)
+        {
+            ViewAllRestaurants();
+            Console.WriteLine("[L]ogout. Enter L to LOGOUT");
+            Console.Write("Enter your choice: ");
+            string input = Console.ReadLine();
+            Console.WriteLine();
+            break;
+        }
     }
-    else if (user is Customer)
+}
+
+void ReturnToMenu()
+{
+    while (true)
     {
-        ViewAllRestaurants();
-        Console.WriteLine("[L]ogout. Enter L to LOGOUT");
+        Console.WriteLine("[R]eturn to Menu. Enter R to RETURN");
         Console.Write("Enter your choice: ");
         string input = Console.ReadLine();
-        Console.WriteLine();
+        if (input?.ToUpper() == "R")
+        {
+            Console.WriteLine();
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice. Please enter R to return.");
+            Console.WriteLine();
+        }
     }
-}
-
-void CreateRestaurant(RestaurantOwner owner)
-{
-    owner.createRestaurant(restaurants);
-}
-
-void ViewAllRestaurants()
-{
-    if (restaurants.Count == 0)
-    {
-        Console.WriteLine("No restaurants available.");
-        return;
-    }
-    foreach (var r in restaurants)
-    {
-        Console.WriteLine($"Restaurant: {r.Name}");
-        r.printMenu();
-        Console.WriteLine();
-    }
-}
-
-void InitializeSampleData()
-{
-    // Sample RestaurantOwner
-    var owner1 = new RestaurantOwner
-    {
-        Username = "owner1",
-        Password = "password1",
-        Email = "owner1@email.com"
-    };
-    var owner2 = new RestaurantOwner
-    {
-        Username = "owner2",
-        Password = "password2",
-        Email = "owner2@email.com"
-    };
-
-    // Sample Customers
-    var customer1 = new Customer
-    {
-        Username = "customer1",
-        Password = "password1",
-        Email = "customer1@email.com"
-    };
-    var customer2 = new Customer
-    {
-        Username = "customer2",
-        Password = "password2",
-        Email = "customer2@email.com"
-    };
-
-    // Sample Menus
-    var menu0 = new RestaurantMenu("Main Menu 1");
-
-    var menu1 = new RestaurantMenu("Main Course");
-    menu1.add(new MenuItem("Chicken Rice", true, 3.5));
-    menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
-
-    var menu1_2 = new RestaurantMenu("Dessert Menu");
-    menu1_2.add(new MenuItem("Ice Cream", true, 2.0));
-    menu1_2.add(new MenuItem("Cake", true, 3.0));
-
-    menu0.add(menu1);
-    menu0.add(menu1_2);
-
-    var menu2 = new RestaurantMenu("Main Menu");
-    menu2.add(new MenuItem("Burger", true, 5.5));
-    menu2.add(new MenuItem("Fries", true, 2.5));
-
-    // Sample Restaurants
-    var restaurant1 = new Restaurant("Haaker", menu0);
-    var restaurant2 = new Restaurant("Mcdooonal", menu2);
-    owner1.restaurant = restaurant1;
-    owner2.restaurant = restaurant2;
-
-    // Add to lists
-    users.Add(owner1);
-    users.Add(owner2);
-    users.Add(customer1);
-    users.Add(customer2);
-    restaurants.Add(restaurant1);
-    restaurants.Add(restaurant2);
-}
-
-void UpdateRestaurantMenu(Restaurant restaurant)
-{
-    restaurant.updateItem();
 }
 
 InitializeSampleData();
 
-// Automatically log in as the first user (e.g., owner1)
+////Automatically log in as the first user (e.g., owner1)
 //User testUser = users.First(); // Or specify: users.First(u => u.Username == "owner1");
 //RunUserFeatures(testUser);
 
@@ -279,17 +321,16 @@ while (true)
             case 1:
                 var user = LoginUser();
                 if (user != null)
+                {
                     RunUserFeatures(user);
+                }               
                 break;
             case 2:
                 RegisterUser();
                 break;
             case 3:
                 ViewAllRestaurants();
-                Console.WriteLine("[R]eturn. Enter R to RETURN to MainMenu");
-                Console.Write("Enter you choice: ");
-                string input = Console.ReadLine();
-                Console.WriteLine();
+                
                 break;
         }
     }
