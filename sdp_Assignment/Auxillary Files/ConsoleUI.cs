@@ -13,7 +13,7 @@ namespace sdp_Assignment.Auxillary_Files
     public static class ConsoleUI
     {
         // graberoo login menu
-        public static void ShowLoginMenu()
+        public static void DisplayLoginMenu()
         {
             Console.WriteLine("======================================");
             Console.WriteLine("Welcome to Grabberoo");
@@ -29,7 +29,18 @@ namespace sdp_Assignment.Auxillary_Files
             Console.Write("Enter your choice: ");
         }
 
+        public static void DisplayRestaurantOwnerMenu()
+        {
+            Console.WriteLine("[1] View Own Restaurant");
+            Console.WriteLine("[2] Update Own Restaurant Items");
+            Console.WriteLine("[0] Logout");
+        }
 
+        public static void DisplayCustomerMenu()
+        {
+            Console.WriteLine("[V] View All Restaurants");
+            Console.WriteLine("[L] Logout");
+        }
     }
 
 
