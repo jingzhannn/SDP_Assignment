@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace sdp_Assignment
 {
+    //TODO: PLEASE REGEX VERFIFICATION NAME AND PASSWORD THANKS, and check if the NAME already exists
     internal class CustomerGenerator : UserGenerator
     {
         public override User createUser()

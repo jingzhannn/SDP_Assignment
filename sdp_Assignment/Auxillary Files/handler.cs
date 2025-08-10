@@ -11,7 +11,8 @@ namespace sdp_Assignment.Auxillary_Files
         // returnhandler
         /// This method handles the return functionality in the console application.
         /// basic y or n got it
-        public static bool ReturnHandler()
+        /// for MENUS only, cw only has reutrn to main menu, and staing on current page.
+        public static bool MenuReturnHandler()
         {
             Console.WriteLine("Press 'Y' to return to the main menu, press 'N' to stay");
             while (true)
@@ -26,9 +27,11 @@ namespace sdp_Assignment.Auxillary_Files
                 }
                 else if (key == ConsoleKey.N)
                 {
+
                     Console.WriteLine("Staying on the current page...");
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey(true);
+                    Console.Clear();
                     return false;
                 }
                 else
@@ -37,6 +40,9 @@ namespace sdp_Assignment.Auxillary_Files
                 }
             }
         }
+
+
+
     }
 
 }

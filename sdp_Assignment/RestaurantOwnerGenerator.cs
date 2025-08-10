@@ -48,7 +48,6 @@ namespace sdp_Assignment
                 user.Username = username;
                 break;
             }
-
             while (true)
             {
                 Console.Write("Enter your PASSWORD: ");

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace sdp_Assignment
 {
+
+    //TODO: MORE ROBUST VERFICIATON
     internal class EmailValidator
     {
         public static bool IsValidEmail(string email)
