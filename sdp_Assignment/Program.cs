@@ -1,4 +1,13 @@
 ﻿using sdp_Assignment;
+//ok so get this
+//business-logic is still inside the program.cs
+//also single responsiblity
+//also open-closed principle
+//also the while true loop
+//TODO://
+
+
+
 
 List<User> users = new List<User>();
 List<Restaurant> restaurants = new List<Restaurant>();
@@ -266,10 +275,10 @@ while (true)
 {
     MainMenu();
     int choice;
-    while (true)
+    while (true) 
     {
         string input = Console.ReadLine();
-        if (int.TryParse(input, out choice) && (choice == 0 || choice == 1 || choice == 2 || choice == 3))
+        if (int.TryParse(input, out choice) && (choice == 0 || choice == 1 || choice == 2 || choice == 3)) //can we not tryparse, switch case, easier to understand //TODO:
             break;
         Console.WriteLine("Please enter a valid menu option (0-3).");
     }
