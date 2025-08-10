@@ -228,7 +228,7 @@ void UpdateRestaurantMenu(Restaurant restaurant)
     }
 }
 
-User UserLogin()
+void UserLogin()
 {
     {
         string username;
@@ -251,13 +251,16 @@ User UserLogin()
         if (loggedInUser == null)
         {
             Console.WriteLine("Login failed. Invalid credentials.");
-            return null;
         }
         Console.WriteLine($"Login Successful! Welcome Back {username}!");
         Console.WriteLine();
-        return loggedInUser;
+        if (loggedInUser != null)
+            RunUserFeatures(loggedInUser);
     }
 }
+
+
+
 
 
 // Function to get the user's choice from the main menu
@@ -345,10 +348,10 @@ void LoginHandler()
         switch (choice)
         {
             case 1: // Login user
-                    // TODO: Make it better :)
-                var user = UserLogin();
-                if (user != null)
-                    RunUserFeatures(user);
+
+                Console.WriteLine("login user");
+                Console.ReadKey(true); // Wait for user input before exiting
+                UserLogin();
                 break;
             case 2: // Register user
                 Console.WriteLine("registering user");
