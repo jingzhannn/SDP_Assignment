@@ -1,5 +1,5 @@
 ﻿using sdp_Assignment;
-using System.Xml;
+using sdp_Assignment.Auxillary_Files;
 //ok so get this
 //business-logic is still inside the program.cs
 //also single responsiblity
@@ -67,7 +67,7 @@ void RunUserFeatures(User user)
             {
                 Console.Write("Enter your choice: ");
                 ownerChoice = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(ownerChoice)) break;
+                if (!ValidationUtils.NullOrWhiteSpace(ownerChoice)) break;
                 Console.WriteLine("Choice cannot be empty.");
             }
             if (ownerChoice == "1")
@@ -193,7 +193,7 @@ void UpdateRestaurantMenu(Restaurant restaurant)
     {
         Console.WriteLine("Enter the name of the item to update (or leave blank to exit): ");
         itemName = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(itemName)) return;
+        if (ValidationUtils.NullOrWhiteSpace(itemName)) return;
         var menuComponent = restaurant.GetMenuComponentByName(itemName);
         if (menuComponent is MenuItem item)
         {
@@ -228,39 +228,43 @@ void UpdateRestaurantMenu(Restaurant restaurant)
     }
 }
 
-void UserLogin()
+//dont need hard code user, just push using RunUserFeatures
+User? UserLogin() //probably implement a maximum attempt
 {
+    while (true)
     {
-        string username;
-        while (true)
+        Console.Write("Enter your Username: ");
+        string? username = Console.ReadLine()?.Trim();
+        if (ValidationUtils.NullOrWhiteSpace(username))
         {
-            Console.Write("Enter your USERNAME: ");
-            username = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(username)) break;
-            Console.WriteLine("Username cannot be empty.");
+            Console.WriteLine("Username cannot be empty. Returning to login page...");
+            continue;  //retry infinitely
         }
-        string password;
-        while (true)
+
+        Console.Write("Enter your Password: ");
+        string? password = Console.ReadLine()?.Trim();
+        if (ValidationUtils.NullOrWhiteSpace(password))
         {
-            Console.Write("Enter your PASSWORD: ");
-            password = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(password)) break;
-            Console.WriteLine("Password cannot be empty.");
+            Console.WriteLine("Password cannot be empty. Returning to login page...");
+            return null;  //retry infinitely
         }
-        User loggedInUser = users.FirstOrDefault(u => u.Username == username && u.Password == password);
+
+        User? loggedInUser = users.FirstOrDefault(u => u.Username == username && u.Password == password); //login check
+
+        
         if (loggedInUser == null)
         {
-            Console.WriteLine("Login failed. Invalid credentials.");
+            Console.WriteLine("Login failed. Invalid credentials. Returning to login page...");
+            return null;  //retry infinitely
         }
+
+        Console.ReadKey(true); // Wait for user input before proceeding
+        Console.Clear(); // Clear the console for a fresh start
+
         Console.WriteLine($"Login Successful! Welcome Back {username}!");
-        Console.WriteLine();
-        if (loggedInUser != null)
-            RunUserFeatures(loggedInUser);
+        return loggedInUser;
     }
 }
-
-
-
 
 
 // Function to get the user's choice from the main menu
@@ -278,77 +282,51 @@ int GetMainMenuChoice()
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey(true);
             Console.Clear();
-            Loginmenu();
+            ConsoleUI.ShowLoginMenu();
         }
     }
 }
 
-void ReturnHandler()
+bool ReturnHandler()
 {
     Console.WriteLine("Press 'Y' to return to the main menu, press 'N' to stay");
-    var key = Console.ReadKey(true).Key;
-
-    if (key == ConsoleKey.Y)
+    while (true)
     {
-        Console.WriteLine("returning to main menu");
-        Console.ReadKey(true); // Clear the key press
-        Console.Clear();
-        Loginmenu();
-    }
-    else if (key == ConsoleKey.N)
-    {
-        Console.WriteLine("Staying on the current page...");
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true); // Clear the key press
-    }
-    else
-    {
-        Console.WriteLine("Invalid key pressed. Returning to main menu.");
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey(true); // Clear the key press
+        var key = Console.ReadKey(true).Key;
+        if (key == ConsoleKey.Y)
+        {
+            Console.WriteLine("Returning to main menu...");
+            Console.ReadKey(true);
+            Console.Clear();
+            return true;
+        }
+        else if (key == ConsoleKey.N)
+        {
+            Console.WriteLine("Staying on the current page...");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
+            return false;
+        }
+        else
+        {
+            Console.WriteLine("Invalid key pressed. Please press 'Y' or 'N'.");
+        }
     }
 }
 
 
-// wait for user input before proceeding
-void WaitForUserInput()
-{
-    Console.WriteLine("Press any key to continue...");
-    Console.ReadKey();
-    Console.WriteLine();
-}
 
-
-//Front-end Display
-void Loginmenu()
-{
-    Console.WriteLine("======================================");
-    Console.WriteLine("Welcome to Grabberoo");
-    Console.WriteLine("======================================");
-    Console.WriteLine();
-    Console.WriteLine("Please select an option to proceed:");
-    Console.WriteLine();
-    Console.WriteLine("[1] Login");
-    Console.WriteLine("[2] Register");
-    Console.WriteLine("[3] View All Restaurants");
-    Console.WriteLine("[0] Exit");
-    Console.WriteLine();
-    Console.Write("Enter your choice: ");
-}
 
 // Login Handler Switch Case
 void LoginHandler()
 {
-
-    Loginmenu();//first display
-    
+    ConsoleUI.ShowLoginMenu();//first display
     while (true)
     {
         int choice = GetMainMenuChoice();
         switch (choice)
         {
             case 1: // Login user
-
                 Console.WriteLine("login user");
                 Console.ReadKey(true); // Wait for user input before exiting
                 UserLogin();
@@ -372,9 +350,20 @@ void LoginHandler()
                 Environment.Exit(0);
                 break;
         }
-        Loginmenu();
+        ConsoleUI.ShowLoginMenu();
     }
 }
+
+
+// wait for user input before proceeding
+void WaitForUserInput()
+{
+    Console.WriteLine("Press any key to continue...");
+    Console.ReadKey();
+    Console.WriteLine();
+}
+
+
 
 //Username = "owner2",
 //Password = "password2",
