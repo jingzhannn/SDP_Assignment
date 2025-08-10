@@ -37,5 +37,9 @@ namespace sdp_Assignment
         {
             throw new NotSupportedException();
         }
+        public virtual Iterator createIterator()
+        {
+            throw new NotSupportedException();
+        }
     }
 }

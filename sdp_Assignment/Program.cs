@@ -80,6 +80,7 @@ User LoginUser()
         Console.WriteLine("Login failed. Invalid credentials.");
         return null;
     }
+    Console.WriteLine();
     Console.WriteLine($"Login Successful! Welcome Back {username}!");
     Console.WriteLine();
     return loggedInUser;
@@ -94,6 +95,8 @@ void RunUserFeatures(User user)
             Console.WriteLine("[1] View Own Restaurant");
             Console.WriteLine("[2] Update Own Restaurant Items");
             Console.WriteLine("[0] Logout");
+            Console.WriteLine();
+
             string ownerChoice;
             while (true)
             {
@@ -102,6 +105,7 @@ void RunUserFeatures(User user)
                 if (!string.IsNullOrWhiteSpace(ownerChoice)) break;
                 Console.WriteLine("Choice cannot be empty.");
             }
+            Console.WriteLine();
             if (ownerChoice == "1")
             {
                 if (owner.restaurant != null)
@@ -112,6 +116,21 @@ void RunUserFeatures(User user)
                 else
                 {
                     Console.WriteLine("No restaurant found.");
+                }
+                while (true)
+                {
+                    Console.WriteLine("[R]eturn to Owner Menu. Enter R to RETURN");
+                    Console.Write("Enter your choice: ");
+                    string input = Console.ReadLine();
+                    if (input?.ToUpper() == "R")
+                    {
+                        Console.WriteLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid choice. Please enter R to return.");
+                    }
                 }
             }
             else if (ownerChoice == "2")
@@ -158,6 +177,7 @@ void ViewAllRestaurants()
     {
         Console.WriteLine($"Restaurant: {r.Name}");
         r.printMenu();
+        Console.WriteLine();
     }
 }
 
@@ -192,15 +212,25 @@ void InitializeSampleData()
     };
 
     // Sample Menus
-    var menu1 = new RestaurantMenu("Main Menu");
+    var menu0 = new RestaurantMenu("Main Menu 1");
+
+    var menu1 = new RestaurantMenu("Main Course");
     menu1.add(new MenuItem("Chicken Rice", true, 3.5));
     menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
+
+    var menu1_2 = new RestaurantMenu("Dessert Menu");
+    menu1_2.add(new MenuItem("Ice Cream", true, 2.0));
+    menu1_2.add(new MenuItem("Cake", true, 3.0));
+
+    menu0.add(menu1);
+    menu0.add(menu1_2);
+
     var menu2 = new RestaurantMenu("Main Menu");
     menu2.add(new MenuItem("Burger", true, 5.5));
     menu2.add(new MenuItem("Fries", true, 2.5));
 
     // Sample Restaurants
-    var restaurant1 = new Restaurant("Haaker", menu1);
+    var restaurant1 = new Restaurant("Haaker", menu0);
     var restaurant2 = new Restaurant("Mcdooonal", menu2);
     owner1.restaurant = restaurant1;
     owner2.restaurant = restaurant2;
@@ -216,51 +246,14 @@ void InitializeSampleData()
 
 void UpdateRestaurantMenu(Restaurant restaurant)
 {
-    Console.WriteLine($"Updating menu for {restaurant.Name}");
-    // Only allow update for top-level menu items (no submenu support for simplicity)
-    Console.WriteLine("Current Menu:");
-    restaurant.printMenu();
-    string itemName;
-    while (true)
-    {
-        Console.WriteLine("Enter the name of the item to update (or leave blank to exit): ");
-        itemName = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(itemName)) return;
-        var menuComponent = restaurant.GetMenuComponentByName(itemName);
-        if (menuComponent is MenuItem item)
-        {
-            double newPrice;
-            while (true)
-            {
-                Console.WriteLine($"Current price: {item.Price}");
-                Console.Write("Enter new price: ");
-                if (double.TryParse(Console.ReadLine(), out newPrice) && newPrice >= 0) break;
-                Console.WriteLine("Please enter a valid positive number.");
-            }
-            item.SetPrice(newPrice);
-            Console.WriteLine("Price updated.");
-            bool avail;
-            while (true)
-            {
-                Console.WriteLine($"Current availability: {item.Availability}");
-                Console.Write("Is item available? (true/false): ");
-                string availInput = Console.ReadLine();
-                if (availInput.Equals("true", StringComparison.OrdinalIgnoreCase)) { avail = true; break; }
-                if (availInput.Equals("false", StringComparison.OrdinalIgnoreCase)) { avail = false; break; }
-                Console.WriteLine("Please enter true or false.");
-            }
-            item.SetAvailability(avail);
-            Console.WriteLine("Availability updated.");
-            break;
-        }
-        else
-        {
-            Console.WriteLine("Menu item not found. Please enter a valid item name.");
-        }
-    }
+    restaurant.updateItem();
 }
 
 InitializeSampleData();
+
+// Automatically log in as the first user (e.g., owner1)
+//User testUser = users.First(); // Or specify: users.First(u => u.Username == "owner1");
+//RunUserFeatures(testUser);
 
 while (true)
 {
@@ -271,7 +264,7 @@ while (true)
         string input = Console.ReadLine();
         if (int.TryParse(input, out choice) && (choice == 0 || choice == 1 || choice == 2 || choice == 3))
             break;
-        Console.WriteLine("Please enter a valid menu option (0-3).");
+        Console.WriteLine("Please enter a Valid Menu Option");
     }
     Console.WriteLine();
     if (choice == 0)

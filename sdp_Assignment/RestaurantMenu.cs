@@ -10,8 +10,9 @@ namespace sdp_Assignment
     {
         private List<MenuComponent> components;
         private string name;
+        private Iterator iter = null;
 
-        public string Name { get { return name; } }
+        public override string Name { get { return name; } }
 
         public RestaurantMenu(string name)
         {
@@ -33,7 +34,7 @@ namespace sdp_Assignment
         {
             return components[index];
         }
-        public Iterator createIterator()
+        public override Iterator createIterator()
         {
             return new RestaurantMenuIterator(components);
         }
@@ -41,36 +42,26 @@ namespace sdp_Assignment
         public override void print()
         {
             Console.WriteLine(Name.ToUpper());
-            int itemNumber = 1;
-            foreach (var component in components)
+            this.iter = createIterator();
+            int index = 0;
+            while (iter.hasNext())
             {
-                if (component is RestaurantMenu submenu)
+                MenuComponent menuComponent = (MenuComponent)iter.next();
+                if (menuComponent is not MenuItem)
                 {
-                    Console.WriteLine($"- {submenu.Name}");
-                    int subItemNumber = 1;
-                    foreach (var subComponent in submenu.GetComponents())
-                    {
-                        Console.Write($"  {subItemNumber}. ");
-                        subComponent.print();
-                        Console.WriteLine();
-                        subItemNumber++;
-                    }
+                    Console.Write($"({index + 1}) ");
                 }
                 else
                 {
-                    Console.Write($"{itemNumber}. ");
-                    component.print();
-                    Console.WriteLine();
-                    itemNumber++;
+                    Console.Write($"    {index + 1}. ");
                 }
+                
+                menuComponent.print();
+                index++;
             }
+            this.iter = null;
+
             Console.WriteLine();
         }
-
-        public List<MenuComponent> GetComponents()
-        {
-            return components;
-        }
-
     }
 }

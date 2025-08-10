@@ -25,7 +25,7 @@ namespace sdp_Assignment
         public override double Price { get { return price; } }
         public override void print()
         {
-            Console.Write($"{name} | ${price:N2} | Available: {availability}");
+            Console.WriteLine($"{name} | ${price:N2} | Available: {availability}");
         }
 
         public void SetPrice(double newPrice)
