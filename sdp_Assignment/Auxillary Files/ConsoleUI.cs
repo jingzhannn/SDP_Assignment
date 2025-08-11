@@ -29,12 +29,6 @@ namespace sdp_Assignment.Auxillary_Files
             Console.Write("Enter your choice: ");
         }
 
-        public static void DisplayRestaurantOwnerMenu()
-        {
-            Console.WriteLine("[1] View Own Restaurant");
-            Console.WriteLine("[2] Update Own Restaurant Items");
-            Console.WriteLine("[0] Logout");
-        }
 
         public static void DisplayCustomerMenu()
         {
