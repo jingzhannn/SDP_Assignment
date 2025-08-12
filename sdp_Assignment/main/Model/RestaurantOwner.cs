@@ -1,11 +1,11 @@
-﻿using sdp_Assignment;
+﻿using sdp_Assignment.main.Composite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.main.Model
 {
     internal class RestaurantOwner : User
     {  
@@ -136,8 +136,8 @@ namespace sdp_Assignment
                 }
             }
 
-            this.restaurant = new Restaurant(name, mainMenu);
-            restaurantList.Add(this.restaurant);
+            restaurant = new Restaurant(name, mainMenu);
+            restaurantList.Add(restaurant);
             Console.WriteLine($"Restaurant {name} created and added to list.");
         }
     }

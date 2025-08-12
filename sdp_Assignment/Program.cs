@@ -1,5 +1,13 @@
-﻿using sdp_Assignment;
+﻿//INIT ALL INSIDE Program.cs 
+//supposed to split using with whos doing it 
 using sdp_Assignment.Auxillary_Files;
+using sdp_Assignment.main.Composite;
+using sdp_Assignment.main.Model;
+using sdp_Assignment.main.Factory;
+using sdp_Assignment.main.Iterator;
+using sdp_Assignment.main.Validators;
+using sdp_Assignment.Utils.Validations;
+
 //ok so get this
 //business-logic is still inside the program.cs
 //also single responsiblity
@@ -180,58 +188,7 @@ void ViewAllRestaurants()
         r.printMenu();
     }
 }//read
-void InitializeSampleData()
-{
-    // Sample RestaurantOwner
-    var owner1 = new RestaurantOwner
-    {
-        Username = "owner1",
-        Password = "password1",
-        Email = "owner1@email.com"
-    };
-    var owner2 = new RestaurantOwner
-    {
-        Username = "owner2",
-        Password = "password2",
-        Email = "owner2@email.com"
-    };
 
-    // Sample Customers
-    var customer1 = new Customer
-    {
-        Username = "customer1",
-        Password = "password1",
-        Email = "customer1@email.com"
-    };
-    var customer2 = new Customer
-    {
-        Username = "customer2",
-        Password = "password2",
-        Email = "customer2@email.com"
-    };
-
-    // Sample Menus
-    var menu1 = new RestaurantMenu("Main Menu");
-    menu1.add(new MenuItem("Chicken Rice", true, 3.5));
-    menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
-    var menu2 = new RestaurantMenu("Main Menu");
-    menu2.add(new MenuItem("Burger", true, 5.5));
-    menu2.add(new MenuItem("Fries", true, 2.5));
-
-    // Sample Restaurants
-    var restaurant1 = new Restaurant("Haaker", menu1);
-    var restaurant2 = new Restaurant("Mcdooonal", menu2);
-    owner1.restaurant = restaurant1;
-    owner2.restaurant = restaurant2;
-
-    // Add to lists
-    users.Add(owner1);
-    users.Add(owner2);
-    users.Add(customer1);
-    users.Add(customer2);
-    restaurants.Add(restaurant1);
-    restaurants.Add(restaurant2);
-}//initalise
 //update
 void UpdateRestaurantMenu(Restaurant restaurant)
 {
@@ -383,14 +340,13 @@ void LoginHandler()
                 Console.WriteLine("registering user");
                 Console.ReadKey(true); // Wait for user input before exiting
                 RegisterUser();
-                WaitForUserInput();
+                WaitForUserInput(); //requires input
                 break;
             case "3": // View All Restaurants
                 Console.WriteLine("viewing restraunts");
                 Console.ReadKey(true); // Wait for user input before exiting
                 ViewAllRestaurants();
-                WaitForUserInput();
-                //was a r to return scafoold code here
+                WaitForUserInput(); //requires input
                 break;
             case "0": // Exit
                 Console.WriteLine("Exiting the application...");
@@ -425,6 +381,57 @@ void WaitForUserInput()
 //Password = "password1",
 //Email = "customer1@email.com"
 
+void InitializeSampleData()
+{
+    // Sample RestaurantOwner
+    var owner1 = new RestaurantOwner
+    {
+        Username = "owner1",
+        Password = "password1",
+        Email = "owner1@email.com"
+    };
+    var owner2 = new RestaurantOwner
+    {
+        Username = "owner2",
+        Password = "password2",
+        Email = "owner2@email.com"
+    };
 
+    // Sample Customers
+    var customer1 = new Customer
+    {
+        Username = "customer1",
+        Password = "password1",
+        Email = "customer1@email.com"
+    };
+    var customer2 = new Customer
+    {
+        Username = "customer2",
+        Password = "password2",
+        Email = "customer2@email.com"
+    };
+
+    // Sample Menus
+    var menu1 = new RestaurantMenu("Main Menu");
+    menu1.add(new MenuItem("Chicken Rice", true, 3.5));
+    menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
+    var menu2 = new RestaurantMenu("Main Menu");
+    menu2.add(new MenuItem("Burger", true, 5.5));
+    menu2.add(new MenuItem("Fries", true, 2.5));
+
+    // Sample Restaurants
+    var restaurant1 = new Restaurant("Haaker", menu1);
+    var restaurant2 = new Restaurant("Mcdooonal", menu2);
+    owner1.restaurant = restaurant1;
+    owner2.restaurant = restaurant2;
+
+    // Add to lists
+    users.Add(owner1);
+    users.Add(owner2);
+    users.Add(customer1);
+    users.Add(customer2);
+    restaurants.Add(restaurant1);
+    restaurants.Add(restaurant2);
+}//initalise, sample data should be pointed to subclasses
 InitializeSampleData(); // Popluate
 LoginHandler(); // Main entry point of the application

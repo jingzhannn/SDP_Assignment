@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.main.Composite
 {
     internal class RestaurantMenu : MenuComponent
     {
@@ -33,10 +33,10 @@ namespace sdp_Assignment
         {
             return components[index];
         }
-        public Iterator createIterator()
-        {
-            return new RestaurantMenuIterator(components);
-        }
+        //public Iterator createIterator()
+        //{
+        //    return new RestaurantMenuIterator(components);
+        //}
 
         public override void print()
         {

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using sdp_Assignment.main.Model;
+using sdp_Assignment.main.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.main.Factory
 {
     internal class RestaurantOwnerGenerator : UserGenerator
     {

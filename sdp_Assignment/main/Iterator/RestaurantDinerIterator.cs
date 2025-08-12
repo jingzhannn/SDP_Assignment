@@ -1,10 +1,11 @@
-﻿using System;
+﻿using sdp_Assignment.main.Composite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.main.Iterator
 {
     internal class RestaurantMenuIterator : Iterator
     {
@@ -21,7 +22,7 @@ namespace sdp_Assignment
             return position < myMenu.Count;
         }
 
-        public Object next() { return myMenu[position++]; }
+        public object next() { return myMenu[position++]; }
 
     }
 }
