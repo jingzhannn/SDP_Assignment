@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//TODO:
-//Line 13 : CS0118
-//Line 49 : CS0103
-//cant run without commenting entire class
 
 namespace sdp_Assignment.main.Composite
 {
@@ -15,7 +11,7 @@ namespace sdp_Assignment.main.Composite
     {
         private List<MenuComponent> components;
         private string name;
-        private RestaurantMenuIterator iter = null;
+        private RestaurantMenuIterator? iter = null;
 
         public override string Name { get { return name; } }
 
@@ -39,7 +35,8 @@ namespace sdp_Assignment.main.Composite
         {
             return components[index];
         }
-        public RestaurantMenuIterator createIterator()
+        
+        public override IMenuIterator createIterator()
         {
             return new RestaurantMenuIterator(components);
         }
@@ -47,7 +44,9 @@ namespace sdp_Assignment.main.Composite
         public override void print()
         {
             Console.WriteLine(Name.ToUpper());
-            this.iter = createIterator();
+            this.iter = (RestaurantMenuIterator)createIterator();
+            if (this.iter == null) return;
+
             int index = 0;
             while (iter.hasNext())
             {

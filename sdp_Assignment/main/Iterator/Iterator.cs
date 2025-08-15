@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace sdp_Assignment.main.Iterator
 {
-    internal interface Iterator
+    internal interface IMenuIterator
     {
-        public bool hasNext();
-        public object next();
+        bool hasNext();
+        object next();
     }
 }

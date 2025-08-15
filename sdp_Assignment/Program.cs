@@ -109,10 +109,12 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 {
                     Console.WriteLine($"Restaurant: {owner.restaurant.Name}");
                     owner.restaurant.printMenu();
+                    WaitForUserInput();
                 }
                 else
                 {
-                    Console.WriteLine("No restaurant found.");
+                    Console.WriteLine("No restaurant found. Creating a new restaurant...");
+                    CreateRestaurant(owner);
                 }
                 break;
 
@@ -123,7 +125,8 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 }
                 else
                 {
-                    Console.WriteLine("No restaurant found.");
+                    Console.WriteLine("No restaurant found. Please create a restaurant first.");
+                    CreateRestaurant(owner);
                 }
                 break;
 
@@ -144,8 +147,7 @@ void RunCustomerFeatures(Customer customer)
     bool isRunning = true;
     while (isRunning)
     {
-
-        Console.WriteLine("Hello:", customer.Username);
+        Console.WriteLine($"Hello {customer.Username}!");
         ConsoleUI.DisplayCustomerMenu();
 
         string choice = ReadNonEmptyInput("Enter your choice: ");
@@ -153,6 +155,7 @@ void RunCustomerFeatures(Customer customer)
         {
             case "V":
                 ViewAllRestaurants();
+                WaitForUserInput();
                 break;
 
             case "L":
@@ -167,7 +170,6 @@ void RunCustomerFeatures(Customer customer)
         Console.WriteLine();
     }
 }
-
 
 //classes
 void CreateRestaurant(RestaurantOwner owner)
@@ -191,42 +193,71 @@ void ViewAllRestaurants()
 //update
 void UpdateRestaurantMenu(Restaurant restaurant)
 {
+    while (true)
+    {
+        Console.WriteLine("What do you want to do?");
+        Console.WriteLine("1. Add Menu or Item");
+        Console.WriteLine("2. Delete Menu or Item");
+        Console.WriteLine("3. Update Item Price/Availability");
+        Console.WriteLine("0. Return to Owner Menu");
+        Console.WriteLine();
+
+        string choice = ReadNonEmptyInput("Enter your choice: ");
+        switch (choice)
+        {
+            case "1":
+                restaurant.AddMenuOrItem();
+                WaitForUserInput();
+                break;
+            case "2":
+                restaurant.DeleteMenuOrItem();
+                WaitForUserInput();
+                break;
+            case "3":
+                UpdateItemDetails(restaurant);
+                WaitForUserInput();
+                break;
+            case "0":
+                Console.WriteLine("Returning to Owner Menu...");
+                return;
+            default:
+                Console.WriteLine("Invalid choice. Please try again.");
+                break;
+        }
+    }
+}
+
+void UpdateItemDetails(Restaurant restaurant)
+{
     Console.WriteLine($"Updating menu for {restaurant.Name}");
     Console.WriteLine("Current Menu:");
     restaurant.printMenu();
 
-
     while (true)
     {
         string itemName = MenuItemNamePrompt();
-        if (ValidationUtils.NullOrWhiteSpace(itemName))
+        if (string.IsNullOrWhiteSpace(itemName))
             return;
-        // TODO://
-        /// GetMenuComponentByName doesnt exist inside Model/Restraunt.cs (previous reference)
-        /// i dont know what replaces GetMenuComponentByName, i need you to complete it 
-        /// public MenuComponent GetMenuComponentByName(string name) was called under Model/Restraunt.cs inside my branch
-        /// 
 
+        var menuComponent = restaurant.GetMenuComponentByName(itemName);
+        if (menuComponent is not MenuItem item)
+        {
+            Console.WriteLine("Menu item not found. Please enter a valid item name.");
+            continue;
+        }
 
-        //var menuComponent = restaurant.GetMenuComponentByName(itemName);
-        //if (menuComponent is not MenuItem item)
-        //{
-        //    Console.WriteLine("Menu item not found. Please enter a valid item name.");
-        //    continue;
-        //}
+        double newPrice = PromptForNewPrice(item);
+        item.SetPrice(newPrice);
+        Console.WriteLine("Price updated.");
 
-        //double newPrice = PromptForNewPrice(item);
-        //item.SetPrice(newPrice);
-        //Console.WriteLine("Price updated.");
+        bool avail = PromptForAvailability(item);
+        item.SetAvailability(avail);
+        Console.WriteLine("Availability updated.");
 
-        //bool avail = PromptForAvailability(item);
-        //item.SetAvailability(avail);
-        //Console.WriteLine("Availability updated.");
-
-        //Console.WriteLine("Update another item? (Y/N)");
-        //var key = Console.ReadKey(true).Key;
-        //if (key != ConsoleKey.Y)
-        //    break;
+        Console.WriteLine("Update another item? (Y/N)");
+        var key = Console.ReadKey(true).Key;
+        if (key != ConsoleKey.Y)
+            break;
     }
 }
 //classes
