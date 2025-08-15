@@ -1,11 +1,12 @@
 ﻿//INIT ALL INSIDE Program.cs 
 //supposed to split using with whos doing it 
-using sdp_Assignment.main.Composite;
-using sdp_Assignment.main.Model;
-using sdp_Assignment.main.Factory;
-using sdp_Assignment.main.Iterator;
 //auxillary files. 
 using sdp_Assignment.Auxillary_Files;
+using sdp_Assignment.main.Command;
+using sdp_Assignment.main.Composite;
+using sdp_Assignment.main.Factory;
+using sdp_Assignment.main.Iterator;
+using sdp_Assignment.main.Model;
 
 //ok so get this
 //business-logic is still inside the program.cs
@@ -386,6 +387,40 @@ void WaitForUserInput()
 //Password = "password1",
 //Email = "customer1@email.com"
 
+//debug
+///Composite
+//MenuComponent fries = new MenuItem("Fries", true, 5.0);
+//MenuComponent lunchMenu = new RestaurantMenu("Lunch Menu");
+//lunchMenu.add(fries);
+//lunchMenu.print();  // prints menu title,item
+///Command
+///
+// this is supposed to be how program.cs works
+// 1. Create composite/leaf objects
+MenuItem burger = new MenuItem("Burger", true, 5.0);
+RestaurantMenu lunchMenu = new RestaurantMenu("Lunch Menu");
+
+// 2. Add burger to lunchMenu via command
+AddItemCommand addBurger = new AddItemCommand(lunchMenu, burger);
+addBurger.Execute();
+// before
+lunchMenu.print();
+// 3. Update burger price via command
+UpdatePriceCommand updatePrice = new UpdatePriceCommand(burger, 7.0);
+updatePrice.Execute();
+
+// 4. Change availability via command
+ChangeAvailabilityCommand changeAvail = new ChangeAvailabilityCommand(burger, false);
+changeAvail.Execute();
+
+// 5. Print menu
+// after
+lunchMenu.print();
+///Decerator
+//MenuComponent fries = new MenuItem("Fries", true, 5.0);
+//MenuComponent saltedFries = new ExtraSaltDecorator(fries);
+//saltedFries.print();  // prints "Fries with extra salt" or adds behavior
+//debug
 void InitializeSampleData()
 {
     // Sample RestaurantOwner

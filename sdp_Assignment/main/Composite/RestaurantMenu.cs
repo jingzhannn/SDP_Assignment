@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//TODO:
-//Line 13 : CS0118
-//Line 49 : CS0103
-//cant run without commenting entire class
 
 namespace sdp_Assignment.main.Composite
 {
