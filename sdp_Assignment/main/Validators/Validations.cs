@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//pattern specific - keep separate from Auxillary_Validators
 
-namespace sdp_Assignment
+
+namespace sdp_Assignment.main.Validators
 {
-    internal interface Iterator
+    public class Validations
     {
-        public bool hasNext();
-        public object next();
+
     }
 }

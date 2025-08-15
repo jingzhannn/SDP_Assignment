@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.Auxillary_Files
 {
+
+    //TODO: MORE ROBUST VERFICIATON
     internal class EmailValidator
     {
         public static bool IsValidEmail(string email)

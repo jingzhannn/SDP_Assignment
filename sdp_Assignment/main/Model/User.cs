@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment
+namespace sdp_Assignment.main.Model
 {
-    internal abstract class User
+    public abstract class User
     {
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public Restaurant Restaurant { get; set; }
+        //public Restaurant Restaurant { get; set; }
     }
 }
