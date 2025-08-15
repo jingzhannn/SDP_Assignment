@@ -16,7 +16,7 @@ using sdp_Assignment.Auxillary_Files;
 // consistency in GUI 
 //TODO:// // refactor the code to use a more modular approach
 // USING THE diagram, and align that with the diagram. 
-
+// TODO:// Line 204
 
 
 
@@ -201,26 +201,32 @@ void UpdateRestaurantMenu(Restaurant restaurant)
         string itemName = MenuItemNamePrompt();
         if (ValidationUtils.NullOrWhiteSpace(itemName))
             return;
+        // TODO://
+        /// GetMenuComponentByName doesnt exist inside Model/Restraunt.cs (previous reference)
+        /// i dont know what replaces GetMenuComponentByName, i need you to complete it 
+        /// public MenuComponent GetMenuComponentByName(string name) was called under Model/Restraunt.cs inside my branch
+        /// 
 
-        var menuComponent = restaurant.GetMenuComponentByName(itemName);
-        if (menuComponent is not MenuItem item)
-        {
-            Console.WriteLine("Menu item not found. Please enter a valid item name.");
-            continue;
-        }
 
-        double newPrice = PromptForNewPrice(item);
-        item.SetPrice(newPrice);
-        Console.WriteLine("Price updated.");
+        //var menuComponent = restaurant.GetMenuComponentByName(itemName);
+        //if (menuComponent is not MenuItem item)
+        //{
+        //    Console.WriteLine("Menu item not found. Please enter a valid item name.");
+        //    continue;
+        //}
 
-        bool avail = PromptForAvailability(item);
-        item.SetAvailability(avail);
-        Console.WriteLine("Availability updated.");
+        //double newPrice = PromptForNewPrice(item);
+        //item.SetPrice(newPrice);
+        //Console.WriteLine("Price updated.");
 
-        Console.WriteLine("Update another item? (Y/N)");
-        var key = Console.ReadKey(true).Key;
-        if (key != ConsoleKey.Y)
-            break;
+        //bool avail = PromptForAvailability(item);
+        //item.SetAvailability(avail);
+        //Console.WriteLine("Availability updated.");
+
+        //Console.WriteLine("Update another item? (Y/N)");
+        //var key = Console.ReadKey(true).Key;
+        //if (key != ConsoleKey.Y)
+        //    break;
     }
 }
 //classes

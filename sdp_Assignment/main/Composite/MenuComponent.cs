@@ -37,9 +37,9 @@ namespace sdp_Assignment.main.Composite
         {
             throw new NotSupportedException();
         }
-        public virtual Iterator createIterator()
-        {
-            throw new NotSupportedException();
-        }
+        //public virtual Iterator createIterator()
+        //{
+        //    throw new NotSupportedException();
+        //}
     }
 }
