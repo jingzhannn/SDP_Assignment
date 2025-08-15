@@ -1,12 +1,11 @@
 ﻿//INIT ALL INSIDE Program.cs 
 //supposed to split using with whos doing it 
-using sdp_Assignment.Auxillary_Files;
 using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Model;
 using sdp_Assignment.main.Factory;
 using sdp_Assignment.main.Iterator;
-using sdp_Assignment.main.Validators;
-using sdp_Assignment.Utils.Validations;
+//auxillary files. 
+using sdp_Assignment.Auxillary_Files;
 
 //ok so get this
 //business-logic is still inside the program.cs

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sdp_Assignment.Utils.Validations
+namespace sdp_Assignment.Auxillary_Files
 {
 
     // factored out null or whitespace check
