@@ -449,11 +449,11 @@ void InitializeSampleData()
 
     // Sample Menus
     var menu1 = new RestaurantMenu("Main Menu");
-    menu1.add(new MenuItem("Chicken Rice", true, 3.5));
-    menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
+    menu1.add(new MenuItem("Chicken Rice", true, 3.5, new List<string> { "Rice", "Chicken", "Cucumber" }));
+    menu1.add(new MenuItem("Nasi Lemak", true, 4.0, new List<string> { "Rice", "Cucumber", "Chilli", "Anchovies", "Chicken" }));
     var menu2 = new RestaurantMenu("Main Menu");
-    menu2.add(new MenuItem("Burger", true, 5.5));
-    menu2.add(new MenuItem("Fries", true, 2.5));
+    menu2.add(new MenuItem("Burger", true, 5.5, new List<string> { "Bun", "Beef Patty", "Cheese", "Lettuce", "Tomato" }));
+    menu2.add(new MenuItem("Fries", true, 2.5, new List<string> { "Salt" }));
 
     // Sample Restaurants
     var restaurant1 = new Restaurant("Haaker", menu1);
