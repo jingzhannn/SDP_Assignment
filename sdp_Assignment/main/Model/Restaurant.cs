@@ -422,5 +422,11 @@ namespace sdp_Assignment.main.Model
             }
             printMenu();
         }
+
+        // Add this method to expose the root menu component
+        public MenuComponent GetMenuRoot()
+        {
+            return all_menus;
+        }
     }
 }

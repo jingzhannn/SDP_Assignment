@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sdp_Assignment.main.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ namespace sdp_Assignment.Auxillary_Files
         public static void DisplayCustomerMenu()
         {
             Console.WriteLine("[V] View All Restaurants");
+            Console.WriteLine("[O] Order");
             Console.WriteLine("[L] Logout");
         }
 
@@ -50,9 +52,30 @@ namespace sdp_Assignment.Auxillary_Files
             Console.WriteLine("[2] Restaurant Owner");
             Console.WriteLine();
         }
+
+        public static void DisplayEditRestaurantMenu()
+        {
+            Console.WriteLine("1. View Menu");
+            Console.WriteLine("2. Update Item");
+            Console.WriteLine("3. Add Submenu / Item");
+            Console.WriteLine("4. Delete Submenu / Item");
+            Console.WriteLine("0. Return");
+            Console.WriteLine();
+        }
+
+        public static void DisplayCustomerOrderMenu()
+        {
+            Console.WriteLine("Customer Features:");
+            Console.WriteLine("1. View Menu");
+            Console.WriteLine("2. Customize Item");
+            Console.WriteLine("3. Place Order");
+            Console.WriteLine("0. Exit");
+
+        }
+
+
+
+
     }
-
-
-
-
 }
+

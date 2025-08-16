@@ -2,11 +2,11 @@
 //supposed to split using with whos doing it 
 //auxillary files. 
 using sdp_Assignment.Auxillary_Files;
-using sdp_Assignment.main.Command;
 using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Factory;
-using sdp_Assignment.main.Iterator;
 using sdp_Assignment.main.Model;
+using sdp_Assignment.Managers;
+using System.Xml.Linq;
 
 //ok so get this
 //business-logic is still inside the program.cs
@@ -117,10 +117,12 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 }
                 break;
 
-            case "2":
-                if (owner.restaurant != null)
+            case "2": // Edit menu
+
+                Restaurant myRestaurant = owner.restaurant; // Assuming owner.restaurant is of type Model.Restaurant
+                if (myRestaurant != null)
                 {
-                    UpdateRestaurantMenu(owner.restaurant);
+                    UpdateMenuItem(myRestaurant);
                 }
                 else
                 {
@@ -140,13 +142,48 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
         Console.WriteLine();
     }
 }
+
+void UpdateMenuItem(Restaurant myRestaurant)
+{
+
+    while (true)
+    {
+        Console.WriteLine($"\nEditing Menu for {myRestaurant.Name}");
+        ConsoleUI.DisplayEditRestaurantMenu();
+
+        string menuChoice = Console.ReadLine();
+
+        switch (menuChoice)
+        {
+            case "1":
+                myRestaurant.printMenu();
+                break;
+            case "2":
+                myRestaurant.updateItem();
+                break;
+            case "3":
+                myRestaurant.AddMenuOrItem();
+                break;
+            case "4":
+                myRestaurant.DeleteMenuOrItem();
+                break;
+            case "0":
+                Console.WriteLine("not implemented."); // break out of while
+                break;
+            default:
+                Console.WriteLine("Invalid choice.");
+                break;
+        }
+    }
+}
+
 void RunCustomerFeatures(Customer customer)
 {
     bool isRunning = true;
     while (isRunning)
     {
 
-        Console.WriteLine("Hello:", customer.Username);
+        Console.WriteLine($"Hello: {customer.Username}");
         ConsoleUI.DisplayCustomerMenu();
 
         string choice = ReadNonEmptyInput("Enter your choice: ");
@@ -154,6 +191,26 @@ void RunCustomerFeatures(Customer customer)
         {
             case "V":
                 ViewAllRestaurants();
+                break;
+            case "O":
+                if (restaurants.Count == 0)
+                {
+                    Console.WriteLine("No restaurants available.");
+                    break;
+                }
+
+                // Step 1: Let the customer pick a restaurant
+                customer.SelectedRestaurant = RestaurantSelector.SelectRestaurant(restaurants);
+
+                if (customer.SelectedRestaurant != null)
+                {
+                    CustomerManager cm = new CustomerManager(customer.SelectedRestaurant);
+                    cm.Run();
+                }
+                else
+                {
+                    Console.WriteLine("No restaurant selected.");
+                }
                 break;
 
             case "L":
@@ -168,7 +225,6 @@ void RunCustomerFeatures(Customer customer)
         Console.WriteLine();
     }
 }
-
 
 //classes
 void CreateRestaurant(RestaurantOwner owner)
@@ -190,46 +246,7 @@ void ViewAllRestaurants()
 }//read
 
 //update
-void UpdateRestaurantMenu(Restaurant restaurant)
-{
-    Console.WriteLine($"Updating menu for {restaurant.Name}");
-    Console.WriteLine("Current Menu:");
-    restaurant.printMenu();
 
-
-    while (true)
-    {
-        string itemName = MenuItemNamePrompt();
-        if (ValidationUtils.NullOrWhiteSpace(itemName))
-            return;
-        // TODO://
-        /// GetMenuComponentByName doesnt exist inside Model/Restraunt.cs (previous reference)
-        /// i dont know what replaces GetMenuComponentByName, i need you to complete it 
-        /// public MenuComponent GetMenuComponentByName(string name) was called under Model/Restraunt.cs inside my branch
-        /// 
-
-
-        //var menuComponent = restaurant.GetMenuComponentByName(itemName);
-        //if (menuComponent is not MenuItem item)
-        //{
-        //    Console.WriteLine("Menu item not found. Please enter a valid item name.");
-        //    continue;
-        //}
-
-        //double newPrice = PromptForNewPrice(item);
-        //item.SetPrice(newPrice);
-        //Console.WriteLine("Price updated.");
-
-        //bool avail = PromptForAvailability(item);
-        //item.SetAvailability(avail);
-        //Console.WriteLine("Availability updated.");
-
-        //Console.WriteLine("Update another item? (Y/N)");
-        //var key = Console.ReadKey(true).Key;
-        //if (key != ConsoleKey.Y)
-        //    break;
-    }
-}
 //classes
 
 
@@ -378,6 +395,7 @@ void WaitForUserInput()
 
 
 
+
 //Username = "owner2",
 //Password = "password2",
 //Email = "owner2@email.com"
@@ -387,40 +405,81 @@ void WaitForUserInput()
 //Password = "password1",
 //Email = "customer1@email.com"
 
-//debug
-///Composite
-//MenuComponent fries = new MenuItem("Fries", true, 5.0);
-//MenuComponent lunchMenu = new RestaurantMenu("Lunch Menu");
-//lunchMenu.add(fries);
-//lunchMenu.print();  // prints menu title,item
-///Command
-///
-// this is supposed to be how program.cs works
-// 1. Create composite/leaf objects
-MenuItem burger = new MenuItem("Burger", true, 5.0);
-RestaurantMenu lunchMenu = new RestaurantMenu("Lunch Menu");
 
-// 2. Add burger to lunchMenu via command
-AddItemCommand addBurger = new AddItemCommand(lunchMenu, burger);
-addBurger.Execute();
-// before
-lunchMenu.print();
-// 3. Update burger price via command
-UpdatePriceCommand updatePrice = new UpdatePriceCommand(burger, 7.0);
-updatePrice.Execute();
 
-// 4. Change availability via command
-ChangeAvailabilityCommand changeAvail = new ChangeAvailabilityCommand(burger, false);
-changeAvail.Execute();
+////debug, ingore
+//// 1. Create composite root (Menu)
+//RestaurantMenu lunchMenu = new RestaurantMenu("Lunch Menu");
 
-// 5. Print menu
-// after
-lunchMenu.print();
-///Decerator
-//MenuComponent fries = new MenuItem("Fries", true, 5.0);
-//MenuComponent saltedFries = new ExtraSaltDecorator(fries);
-//saltedFries.print();  // prints "Fries with extra salt" or adds behavior
-//debug
+//MenuItem burger = new MenuItem("Burger", true, 5.0);
+
+//// Add burger to menu via Command
+//AddItemCommand addBurger = new AddItemCommand(lunchMenu, burger);
+//addBurger.Execute();
+
+//// Print before changes
+//Console.WriteLine("\n--- BEFORE BURGER CHANGES ---");
+//lunchMenu.print();
+
+//// Update price via Command
+//UpdatePriceCommand updateBurgerPrice = new UpdatePriceCommand(burger, 7.0);
+//updateBurgerPrice.Execute();
+
+//// Change availability via Command
+//ChangeAvailabilityCommand updateBurgerAvail = new ChangeAvailabilityCommand(burger, false);
+//updateBurgerAvail.Execute();
+
+//// Print after base modifications
+//Console.WriteLine("\n--- AFTER BURGER CHANGES ---");
+//lunchMenu.print();
+
+//// Apply Decorators (extra topping + discount)
+//var cheeseBurger = new ExtraToppingDecorator(burger, "Cheese", 1.50);
+//cheeseBurger.print(); // show decorator details
+
+//var promoCheeseBurger = new DiscountDecorator(cheeseBurger, 0.20);
+//lunchMenu.add(promoCheeseBurger);
+
+//// Print with decorated burger
+//Console.WriteLine("\n--- AFTER BURGER DECORATORS ---");
+//lunchMenu.print();
+
+
+//MenuItem pizza = new MenuItem("Pizza", true, 10.0);
+
+//// Add pizza to menu
+//AddItemCommand addPizza = new AddItemCommand(lunchMenu, pizza);
+//addPizza.Execute();
+
+//// Update price
+//UpdatePriceCommand updatePizzaPrice = new UpdatePriceCommand(pizza, 12.0);
+//updatePizzaPrice.Execute();
+
+//// Apply topping decorator only
+//var pizzaWithOlives = new ExtraToppingDecorator(pizza, "Olives", 2.00);
+//lunchMenu.add(pizzaWithOlives);
+
+//// Print menu with pizza
+//Console.WriteLine("\n--- AFTER PIZZA DECORATOR ---");
+//lunchMenu.print();
+
+
+//MenuItem pasta = new MenuItem("Pasta", true, 8.0);
+
+//// Add pasta only
+//AddItemCommand addPasta = new AddItemCommand(lunchMenu, pasta);
+//addPasta.Execute();
+
+//// Print menu with pasta
+//Console.WriteLine("\n--- AFTER ADDING PASTA ---");
+//lunchMenu.print();
+
+
+//Console.WriteLine("\n======= FINAL LUNCH MENU =======");
+//lunchMenu.print();
+////debug
+
+
 void InitializeSampleData()
 {
     // Sample RestaurantOwner
