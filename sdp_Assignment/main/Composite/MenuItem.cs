@@ -12,17 +12,20 @@ namespace sdp_Assignment.main.Composite
         private string name;
         private bool availability;
         private double price;
+        private List<string> ingredients;
 
-        public MenuItem(string name, bool availability, double price)
+        public MenuItem(string name, bool availability, double price, List<string> ingredients)
         {
             this.name = name;
             this.availability = availability;
             this.price = price;
+            this.ingredients = ingredients;
         }
 
         public override string Name { get { return name; } }
         public override bool Availability { get { return availability; } }
         public override double Price { get { return price; } }
+        public List<string> Ingredients => ingredients;
 
         public override IMenuIterator createIterator()
         {
@@ -32,7 +35,7 @@ namespace sdp_Assignment.main.Composite
 
         public override void print()
         {
-            Console.WriteLine($"{name} | ${price:N2} | Available: {availability}");
+            Console.WriteLine($"{name} | ${price:N2} | Available: {availability} | Ingredients: {string.Join(", ", ingredients)}");
         }
 
         public void SetPrice(double newPrice)
