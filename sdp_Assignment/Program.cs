@@ -159,13 +159,13 @@ void UpdateMenuItem(Restaurant myRestaurant)
         switch (menuChoice)
         {
             case "1":
-                myRestaurant.updateItem();
-                break;
-            case "2":
                 myRestaurant.AddMenuOrItem();
                 break;
-            case "3":
+            case "2":
                 myRestaurant.DeleteMenuOrItem();
+                break;
+            case "3":
+                myRestaurant.updateItem(); 
                 break;
             case "0":
                 Console.WriteLine("not implemented."); // break out of while
