@@ -167,7 +167,7 @@ namespace sdp_Assignment.main.Model
                 double newPrice = 0;
                 while (true)
                 {
-                    Console.Write($"Enter {itemToUpdate.Name} New Price: ");
+                    Console.Write($"Enter {itemToUpdate.Name} New Price: $");
                     try
                     {
                         newPrice = Convert.ToDouble(Console.ReadLine());
@@ -208,7 +208,7 @@ namespace sdp_Assignment.main.Model
                     }
                 }
                 itemToUpdate.SetAvailability(newAvailability);
-                Console.WriteLine($"{itemToUpdate.Name} is {(newAvailability ? "Available" : "Not Available")} successfully.");
+                Console.WriteLine($"{itemToUpdate.Name} is now {(newAvailability ? "Available" : "Not Available")}");
             }
         }
 
