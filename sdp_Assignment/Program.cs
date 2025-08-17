@@ -4,6 +4,8 @@ using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Model;
 using sdp_Assignment.main.Factory;
 using sdp_Assignment.main.Iterator;
+using sdp_Assignment.main.AbstractFactory;
+using sdp_Assignment.main.Adapter;
 //auxillary files. 
 using sdp_Assignment.Auxillary_Files;
 

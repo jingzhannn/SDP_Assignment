@@ -1,17 +1,21 @@
-public class PayPalAdapter : IPaymentProcessor
+namespace sdp_Assignment.main.Adapter
+
 {
-    private PayPalService _payPalService;
-    private string _customerEmail;
-
-    public PayPalAdapter(PayPalService payPalService, string customerEmail)
+    public class PayPalAdapter : IPaymentProcessor
     {
-        _payPalService = payPalService;
-        _customerEmail = customerEmail;
-    }
+        private PayPalService _payPalService;
+        private string _customerEmail;
 
-    public bool ProcessPayment(string customerName, double amount)
-    {
-        Console.WriteLine($"[Adapter] Mapping customer '{customerName}' to email '{_customerEmail}'...");
-        return _payPalService.MakeTransaction(_customerEmail, amount);
+        public PayPalAdapter(PayPalService payPalService, string customerEmail)
+        {
+            _payPalService = payPalService;
+            _customerEmail = customerEmail;
+        }
+
+        public bool ProcessPayment(string customerName, double amount)
+        {
+            Console.WriteLine($"[Adapter] Mapping customer '{customerName}' to email '{_customerEmail}'...");
+            return _payPalService.MakeTransaction(_customerEmail, amount);
+        }
     }
 }

@@ -1,4 +1,7 @@
-public interface IPaymentProcessor
+namespace sdp_Assignment.main.Adapter
 {
-    bool ProcessPayment(string customerName, double amount);
+    public interface IPaymentProcessor
+    {
+        bool ProcessPayment(string customerName, double amount);
+    }
 }
