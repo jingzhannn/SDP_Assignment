@@ -123,7 +123,7 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 Restaurant myRestaurant = owner.restaurant; // Assuming owner.restaurant is of type Model.Restaurant
                 if (myRestaurant != null)
                 {
-                    myRestaurant.updateItem(); // Update item details is under a method in Restaurant class
+                    UpdateMenuItem(myRestaurant);
                 }
                 else
                 {
@@ -153,20 +153,18 @@ void UpdateMenuItem(Restaurant myRestaurant)
         Console.WriteLine($"\nEditing Menu for {myRestaurant.Name}");
         ConsoleUI.DisplayEditRestaurantMenu();
 
+        Console.Write("Enter your choice: ");
         string menuChoice = Console.ReadLine();
-
+        
         switch (menuChoice)
         {
             case "1":
-                myRestaurant.printMenu();
-                break;
-            case "2":
                 myRestaurant.updateItem();
                 break;
-            case "3":
+            case "2":
                 myRestaurant.AddMenuOrItem();
                 break;
-            case "4":
+            case "3":
                 myRestaurant.DeleteMenuOrItem();
                 break;
             case "0":
