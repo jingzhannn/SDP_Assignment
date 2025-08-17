@@ -123,7 +123,7 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 Restaurant myRestaurant = owner.restaurant; // Assuming owner.restaurant is of type Model.Restaurant
                 if (myRestaurant != null)
                 {
-                    myRestaurant.updateItem();
+                    UpdateMenuItem(myRestaurant);
                 }
                 else
                 {
