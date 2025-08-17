@@ -1,7 +1,7 @@
 ﻿using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Decorator;
 using sdp_Assignment.main.Model;
-using IteratorClass = sdp_Assignment.main.Iterator.Iterator;
+using IteratorClass = sdp_Assignment.main.Iterator.IMenuIterator;
 
 namespace sdp_Assignment.Managers
 {
