@@ -123,7 +123,7 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 Restaurant myRestaurant = owner.restaurant; // Assuming owner.restaurant is of type Model.Restaurant
                 if (myRestaurant != null)
                 {
-                    UpdateMenuItem(myRestaurant);
+                    myRestaurant.updateItem(); // Update item details is under a method in Restaurant class
                 }
                 else
                 {
