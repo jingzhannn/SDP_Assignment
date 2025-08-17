@@ -1,9 +1,4 @@
 ﻿using sdp_Assignment.main.Iterator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdp_Assignment.main.Composite
 {
@@ -35,7 +30,7 @@ namespace sdp_Assignment.main.Composite
         {
             return components[index];
         }
-        
+
         public override IMenuIterator createIterator()
         {
             return new RestaurantMenuIterator(components);
@@ -62,7 +57,7 @@ namespace sdp_Assignment.main.Composite
                 {
                     Console.Write($"    {index + 1}. ");
                 }
-                
+
                 menuComponent.print();
                 index++;
             }

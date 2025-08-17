@@ -1,7 +1,7 @@
 ﻿using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Decorator;
+using sdp_Assignment.main.Iterator;
 using sdp_Assignment.main.Model;
-using IteratorClass = sdp_Assignment.main.Iterator.Iterator;
 
 namespace sdp_Assignment.Managers
 {
@@ -64,7 +64,7 @@ namespace sdp_Assignment.Managers
             RestaurantMenu menuRoot = (RestaurantMenu)selectedRestaurant.GetMenuRoot();
 
             List<MenuItem> itemList = new List<MenuItem>();
-            IteratorClass menuIterator = menuRoot.createIterator();
+            IMenuIterator menuIterator = menuRoot.createIterator();
 
             int index = 1;
             Console.WriteLine("\nAvailable Menu Items:");
@@ -104,6 +104,7 @@ namespace sdp_Assignment.Managers
             }
         }
 
+
         // Placeholder for the Decorator pattern
         private MenuComponent CustomizeItem(MenuComponent item)
         {
@@ -118,7 +119,7 @@ namespace sdp_Assignment.Managers
             switch (choice)
             {
                 case "1":
-                    item = new ExtraChickenDecerator((MenuItem)item); // Use the correct decorator class
+                    item = new ExtraChickenDecorator((MenuItem)item); // Use the correct decorator class
                     break;
                 case "2":
                     item = new LargeSizeDecorator((MenuItem)item);
@@ -167,7 +168,7 @@ namespace sdp_Assignment.Managers
             Console.WriteLine("Order sent to restaurant ");
             Console.WriteLine("Command pattern placeholder"); //TODO://Command Pattern.
             cart.Clear();
-            
+
         }
     }
 

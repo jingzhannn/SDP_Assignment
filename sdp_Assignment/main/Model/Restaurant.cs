@@ -1,10 +1,5 @@
 ﻿using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Iterator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 //TODO: read Program.cs Line 204
 namespace sdp_Assignment.main.Model
 {
@@ -14,7 +9,7 @@ namespace sdp_Assignment.main.Model
 
         private MenuComponent all_menus;
 
-        public Restaurant(string name,MenuComponent mc)
+        public Restaurant(string name, MenuComponent mc)
         {
             Name = name;
             all_menus = mc;
@@ -96,14 +91,14 @@ namespace sdp_Assignment.main.Model
                     Console.WriteLine("Please Enter a Valid Option");
                     Console.WriteLine();
                 }
-                
+
             }
 
             MenuComponent menuToUpdate = all_menus.getChild(input - 1);
             Console.WriteLine($"Updating {menuToUpdate.Name.ToUpper()}");
             Console.WriteLine();
             menuToUpdate.print();
-         
+
             while (true)
             {
                 Console.Write("Select Item to Update: ");
@@ -286,7 +281,7 @@ namespace sdp_Assignment.main.Model
                 Console.WriteLine();
                 MenuItem item = new MenuItem(itemName, available, price);
                 printMenu();
-                
+
                 IMenuIterator submenuIterator = all_menus.createIterator();
                 int submenuCount = 0;
                 while (submenuIterator.hasNext())
@@ -375,7 +370,7 @@ namespace sdp_Assignment.main.Model
                 }
                 Console.WriteLine();
                 MenuComponent submenuToDelete = all_menus.getChild(input - 1);
-                all_menus.remove(submenuToDelete);                
+                all_menus.remove(submenuToDelete);
                 Console.WriteLine();
                 Console.WriteLine($"Submenu '{submenuToDelete.Name}' deleted successfully.");
                 Console.WriteLine();

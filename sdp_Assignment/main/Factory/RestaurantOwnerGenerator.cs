@@ -1,10 +1,5 @@
 ﻿using sdp_Assignment.Auxillary_Files;
 using sdp_Assignment.main.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdp_Assignment.main.Factory
 {
@@ -12,7 +7,7 @@ namespace sdp_Assignment.main.Factory
     {
         public override User createUser()
         {
-            User user =  new RestaurantOwner();
+            User user = new RestaurantOwner();
             while (true)
             {
                 Console.Write("Enter your EMAIL: ");
@@ -75,8 +70,8 @@ namespace sdp_Assignment.main.Factory
                 user.Password = password;
                 break;
             }
-            
-            
+
+
 
             return user;
         }

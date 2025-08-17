@@ -2,12 +2,12 @@
 
 namespace sdp_Assignment.main.Decorator
 {
-    internal class ExtraChickenDecerator : MenuItemDecorator
+    internal class ExtraChickenDecorator : MenuItemDecorator
     {
-        public ExtraChickenDecerator(MenuItem item) : base(item) { }
+        public ExtraChickenDecorator(MenuItem item) : base(item) { }
 
-        public override string Name => wrappedItem.Name + " + Chicken Decerator";
-        public override double Price => wrappedItem.Price + 1.50; // add $1.50 for chicken
+        public override string Name => wrappedItem.Name + " + Extra Chicken";
+        public override double Price => wrappedItem.Price + 2.50; // add $2.50 for extra chicken
 
         public override void print()
         {

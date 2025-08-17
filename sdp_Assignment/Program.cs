@@ -6,7 +6,6 @@ using sdp_Assignment.main.Composite;
 using sdp_Assignment.main.Factory;
 using sdp_Assignment.main.Model;
 using sdp_Assignment.Managers;
-using System.Xml.Linq;
 
 //ok so get this
 //business-logic is still inside the program.cs
@@ -101,7 +100,7 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
     while (isRunning)
     {
         ConsoleUI.DisplayRestaurantOwnerMenu();
-        
+
         string choice = ReadNonEmptyInput("Enter your choice: ");
         switch (choice)
         {
@@ -250,42 +249,6 @@ void ViewAllRestaurants()
 }//read
 
 //update
-void UpdateRestaurantMenu(Restaurant restaurant)
-{
-    while (true)
-    {
-        Console.WriteLine("What do you want to do?");
-        Console.WriteLine("1. Add Menu or Item");
-        Console.WriteLine("2. Delete Menu or Item");
-        Console.WriteLine("3. Update Item Price/Availability");
-        Console.WriteLine("0. Return to Owner Menu");
-        Console.WriteLine();
-
-        string choice = ReadNonEmptyInput("Enter your choice: ");
-        switch (choice)
-        {
-            case "1":
-                restaurant.AddMenuOrItem();
-                WaitForUserInput();
-                break;
-            case "2":
-                restaurant.DeleteMenuOrItem();
-                WaitForUserInput();
-                break;
-            case "3":
-                UpdateItemDetails(restaurant);
-                WaitForUserInput();
-                break;
-            case "0":
-                Console.WriteLine("Returning to Owner Menu...");
-                return;
-            default:
-                Console.WriteLine("Invalid choice. Please try again.");
-                break;
-        }
-    }
-}
-
 void UpdateItemDetails(Restaurant restaurant)
 {
     Console.WriteLine($"Updating menu for {restaurant.Name}");
