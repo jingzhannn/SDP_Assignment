@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace sdp_Assignment.main.Model
 {
@@ -73,7 +74,16 @@ namespace sdp_Assignment.main.Model
                             if (double.TryParse(Console.ReadLine(), out price) && price >= 0) break;
                             Console.WriteLine("Please enter a valid positive number.");
                         }
-                        submenu.add(new MenuItem(menuItemName, available, price));
+                        List<string> ingredients = new List<string>();
+                        while (true)
+                        {
+                            Console.Write("Enter ingredients in item (0 to stop):");
+                            string ingredient = Console.ReadLine();
+                            if (!string.IsNullOrWhiteSpace(ingredient) || ingredient == "0") break;
+                            Console.WriteLine("Ingredient name cannot be empty.");
+                            ingredients.Add(ingredient);
+                        }
+                        submenu.add(new MenuItem(menuItemName, available, price, ingredients));
                         string addMoreInput;
                         while (true)
                         {
@@ -120,7 +130,16 @@ namespace sdp_Assignment.main.Model
                         if (double.TryParse(Console.ReadLine(), out price) && price >= 0) break;
                         Console.WriteLine("Please enter a valid positive number.");
                     }
-                    mainMenu.add(new MenuItem(menuItemName, available, price));
+                    List<string> ingredients = new List<string>();
+                    while (true)
+                    {
+                        Console.Write("Enter ingredients in item (0 to stop):");
+                        string ingredient = Console.ReadLine();
+                        if (!string.IsNullOrWhiteSpace(ingredient) || ingredient == "0") break;
+                        Console.WriteLine("Ingredient name cannot be empty.");
+                        ingredients.Add(ingredient);
+                    }
+                    mainMenu.add(new MenuItem(menuItemName, available, price, ingredients));
                     string addMoreInput;
                     while (true)
                     {
