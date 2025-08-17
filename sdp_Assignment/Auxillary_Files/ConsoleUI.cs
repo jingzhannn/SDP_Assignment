@@ -48,12 +48,11 @@
 
         public static void DisplayEditRestaurantMenu()
         {
-            Console.WriteLine("1. View Menu");
-            Console.WriteLine("2. Update Item");
-            Console.WriteLine("3. Add Submenu / Item");
-            Console.WriteLine("4. Delete Submenu / Item");
-            Console.WriteLine("0. Return");
-            Console.WriteLine();
+            Console.WriteLine("1. Add Menu or Item");
+            Console.WriteLine("2. Delete Menu or Item");
+            Console.WriteLine("3. Update Item Price/Availability");
+            Console.WriteLine("0. Return to Owner Menu");
+            Console.WriteLine(); 
         }
 
         public static void DisplayCustomerOrderMenu()

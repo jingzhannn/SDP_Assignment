@@ -48,7 +48,7 @@ void RegisterUser()
                 isValidChoice = true;
                 break;
             default:
-                Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                Console.WriteLine("Invalid choice");
                 continue; // go back to menu
         }
 
@@ -123,7 +123,7 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 Restaurant myRestaurant = owner.restaurant; // Assuming owner.restaurant is of type Model.Restaurant
                 if (myRestaurant != null)
                 {
-                    UpdateMenuItem(myRestaurant);
+                    UpdateRestaurantMenu(myRestaurant);
                 }
                 else
                 {
@@ -576,7 +576,6 @@ void InitializeSampleData()
     users.Add(customer2);
     restaurants.Add(restaurant1);
     restaurants.Add(restaurant2);
-    Console.WriteLine(owner1.restaurant);
 }//initalise, sample data should be pointed to subclasses
 InitializeSampleData(); // Popluate
 LoginHandler(); // Main entry point of the application
