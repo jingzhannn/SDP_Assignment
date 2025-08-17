@@ -282,9 +282,18 @@ namespace sdp_Assignment.main.Model
                         Console.WriteLine("Please Enter a Valid Price");
                     }
                 }
+                List<string> ingredients = new List<string>();
+                while (true)
+                {
+                    Console.Write("Enter ingredients in item (0 to stop): ");
+                    string ingredient = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(ingredient) || ingredient == "0") break;
+                    Console.WriteLine("Ingredient name cannot be empty.");
+                    ingredients.Add(ingredient);
+                }
 
                 Console.WriteLine();
-                MenuItem item = new MenuItem(itemName, available, price);
+                MenuItem item = new MenuItem(itemName, available, price, ingredients);
                 printMenu();
                 
                 IMenuIterator submenuIterator = all_menus.createIterator();
