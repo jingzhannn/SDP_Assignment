@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sdp_Assignment.main.Iterator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace sdp_Assignment.main.Composite
         {
             throw new NotSupportedException();
         }
-        public virtual Iterator.Iterator createIterator()
+        public virtual IMenuIterator createIterator()
         {
             throw new NotSupportedException();
         }

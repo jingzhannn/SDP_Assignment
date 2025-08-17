@@ -1,4 +1,5 @@
 ﻿using sdp_Assignment.main.Composite;
+using sdp_Assignment.main.Iterator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,39 @@ namespace sdp_Assignment.main.Model
             all_menus.print();
         }
 
+        public MenuComponent? GetMenuComponentByName(string itemName)
+        {
+            return FindMenuComponentByName(all_menus, itemName);
+        }
+
+        private MenuComponent? FindMenuComponentByName(MenuComponent component, string itemName)
+        {
+            if (component.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase))
+            {
+                return component;
+            }
+
+            try
+            {
+                IMenuIterator iterator = component.createIterator();
+                while (iterator.hasNext())
+                {
+                    MenuComponent child = (MenuComponent)iterator.next();
+                    MenuComponent? found = FindMenuComponentByName(child, itemName);
+                    if (found != null)
+                    {
+                        return found;
+                    }
+                }
+            }
+            catch (NotSupportedException)
+            {
+                // This is a leaf node (MenuItem), no children to search
+            }
+
+            return null;
+        }
+
         public void updateItem()
         {
             int input = 0;
@@ -43,7 +77,7 @@ namespace sdp_Assignment.main.Model
                 try
                 {
                     input = Convert.ToInt32(Console.ReadLine());
-                    Iterator.Iterator menuIterator = all_menus.createIterator();
+                    IMenuIterator menuIterator = all_menus.createIterator();
                     int menuCount = 0;
                     while (menuIterator.hasNext())
                     {
@@ -76,7 +110,7 @@ namespace sdp_Assignment.main.Model
                 try
                 {
                     input = Convert.ToInt32(Console.ReadLine());
-                    Iterator.Iterator menuIterator = menuToUpdate.createIterator();
+                    IMenuIterator menuIterator = menuToUpdate.createIterator();
                     int menuCount = 0;
                     while (menuIterator.hasNext())
                     {
@@ -157,7 +191,7 @@ namespace sdp_Assignment.main.Model
                 while (true)
                 {
                     Console.Write($"Is {itemToUpdate.Name} Available? (Y/N): ");
-                    string response = Console.ReadLine().Trim().ToUpper();
+                    string response = Console.ReadLine()?.Trim().ToUpper() ?? "";
                     if (response == "Y")
                     {
                         newAvailability = true;
@@ -198,7 +232,7 @@ namespace sdp_Assignment.main.Model
             if (input == 1)
             {
                 Console.Write("Enter Submenu Name: ");
-                string submenuName = Console.ReadLine();
+                string submenuName = Console.ReadLine() ?? "";
                 MenuComponent submenu = new RestaurantMenu(submenuName);
                 all_menus.add(submenu);
                 Console.WriteLine();
@@ -209,12 +243,12 @@ namespace sdp_Assignment.main.Model
             else
             {
                 Console.Write("Enter Item Name: ");
-                string itemName = Console.ReadLine();
+                string itemName = Console.ReadLine() ?? "";
                 bool available = false;
                 while (true)
                 {
                     Console.Write("Is it Available? (Y/N): ");
-                    string availInput = Console.ReadLine()?.Trim().ToUpper();
+                    string availInput = Console.ReadLine()?.Trim().ToUpper() ?? "";
                     if (availInput == "Y")
                     {
                         available = true;
@@ -252,8 +286,8 @@ namespace sdp_Assignment.main.Model
                 Console.WriteLine();
                 MenuItem item = new MenuItem(itemName, available, price);
                 printMenu();
-
-                Iterator.Iterator submenuIterator = all_menus.createIterator();
+                
+                IMenuIterator submenuIterator = all_menus.createIterator();
                 int submenuCount = 0;
                 while (submenuIterator.hasNext())
                 {
@@ -266,7 +300,7 @@ namespace sdp_Assignment.main.Model
                 while (true)
                 {
                     Console.Write($"Which Submenu to add '{itemName}' to? ");
-                    string submenuInput = Console.ReadLine();
+                    string submenuInput = Console.ReadLine() ?? "";
                     if (int.TryParse(submenuInput, out submenuIndex) && submenuIndex >= 1 && submenuIndex <= submenuCount)
                     {
                         submenu = all_menus.getChild(submenuIndex - 1);
@@ -310,7 +344,7 @@ namespace sdp_Assignment.main.Model
                 Console.WriteLine("Deleting SUBMENU");
                 Console.WriteLine();
                 printMenu();
-                Iterator.Iterator menuIterator = all_menus.createIterator();
+                IMenuIterator menuIterator = all_menus.createIterator();
                 int menuCount = 0;
                 while (menuIterator.hasNext())
                 {
@@ -351,7 +385,7 @@ namespace sdp_Assignment.main.Model
                 // Delete Menu Item
                 Console.WriteLine("Deleting MENU ITEM");
                 Console.WriteLine();
-                Iterator.Iterator menuIterator = all_menus.createIterator();
+                IMenuIterator menuIterator = all_menus.createIterator();
                 int menuCount = 0;
                 while (menuIterator.hasNext())
                 {
@@ -384,7 +418,7 @@ namespace sdp_Assignment.main.Model
                 MenuComponent submenu = all_menus.getChild(input - 1);
                 submenu.print();
                 Console.WriteLine();
-                Iterator.Iterator itemIterator = submenu.createIterator();
+                IMenuIterator itemIterator = submenu.createIterator();
                 int itemCount = 0;
                 while (itemIterator.hasNext())
                 {

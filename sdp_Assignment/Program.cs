@@ -110,10 +110,12 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 {
                     Console.WriteLine($"Restaurant: {owner.restaurant.Name}");
                     owner.restaurant.printMenu();
+                    WaitForUserInput();
                 }
                 else
                 {
-                    Console.WriteLine("No restaurant found.");
+                    Console.WriteLine("No restaurant found. Creating a new restaurant...");
+                    CreateRestaurant(owner);
                 }
                 break;
 
@@ -126,7 +128,8 @@ void RunRestaurantOwnerFeatures(RestaurantOwner owner)
                 }
                 else
                 {
-                    Console.WriteLine("No restaurant found.");
+                    Console.WriteLine("No restaurant found. Please create a restaurant first.");
+                    CreateRestaurant(owner);
                 }
                 break;
 
@@ -191,6 +194,7 @@ void RunCustomerFeatures(Customer customer)
         {
             case "V":
                 ViewAllRestaurants();
+                WaitForUserInput();
                 break;
             case "O":
                 if (restaurants.Count == 0)
@@ -246,7 +250,75 @@ void ViewAllRestaurants()
 }//read
 
 //update
+void UpdateRestaurantMenu(Restaurant restaurant)
+{
+    while (true)
+    {
+        Console.WriteLine("What do you want to do?");
+        Console.WriteLine("1. Add Menu or Item");
+        Console.WriteLine("2. Delete Menu or Item");
+        Console.WriteLine("3. Update Item Price/Availability");
+        Console.WriteLine("0. Return to Owner Menu");
+        Console.WriteLine();
 
+        string choice = ReadNonEmptyInput("Enter your choice: ");
+        switch (choice)
+        {
+            case "1":
+                restaurant.AddMenuOrItem();
+                WaitForUserInput();
+                break;
+            case "2":
+                restaurant.DeleteMenuOrItem();
+                WaitForUserInput();
+                break;
+            case "3":
+                UpdateItemDetails(restaurant);
+                WaitForUserInput();
+                break;
+            case "0":
+                Console.WriteLine("Returning to Owner Menu...");
+                return;
+            default:
+                Console.WriteLine("Invalid choice. Please try again.");
+                break;
+        }
+    }
+}
+
+void UpdateItemDetails(Restaurant restaurant)
+{
+    Console.WriteLine($"Updating menu for {restaurant.Name}");
+    Console.WriteLine("Current Menu:");
+    restaurant.printMenu();
+
+    while (true)
+    {
+        string itemName = MenuItemNamePrompt();
+        if (string.IsNullOrWhiteSpace(itemName))
+            return;
+
+        var menuComponent = restaurant.GetMenuComponentByName(itemName);
+        if (menuComponent is not MenuItem item)
+        {
+            Console.WriteLine("Menu item not found. Please enter a valid item name.");
+            continue;
+        }
+
+        double newPrice = PromptForNewPrice(item);
+        item.SetPrice(newPrice);
+        Console.WriteLine("Price updated.");
+
+        bool avail = PromptForAvailability(item);
+        item.SetAvailability(avail);
+        Console.WriteLine("Availability updated.");
+
+        Console.WriteLine("Update another item? (Y/N)");
+        var key = Console.ReadKey(true).Key;
+        if (key != ConsoleKey.Y)
+            break;
+    }
+}
 //classes
 
 
@@ -511,15 +583,25 @@ void InitializeSampleData()
     };
 
     // Sample Menus
-    var menu1 = new RestaurantMenu("Main Menu");
+    var menu0 = new RestaurantMenu("Main Menu 1");
+
+    var menu1 = new RestaurantMenu("Main Course");
     menu1.add(new MenuItem("Chicken Rice", true, 3.5));
     menu1.add(new MenuItem("Nasi Lemak", true, 4.0));
+
+    var menu1_2 = new RestaurantMenu("Dessert Menu");
+    menu1_2.add(new MenuItem("Ice Cream", true, 2.0));
+    menu1_2.add(new MenuItem("Cake", true, 3.0));
+
+    menu0.add(menu1);
+    menu0.add(menu1_2);
+
     var menu2 = new RestaurantMenu("Main Menu");
     menu2.add(new MenuItem("Burger", true, 5.5));
     menu2.add(new MenuItem("Fries", true, 2.5));
 
     // Sample Restaurants
-    var restaurant1 = new Restaurant("Haaker", menu1);
+    var restaurant1 = new Restaurant("Haaker", menu0);
     var restaurant2 = new Restaurant("Mcdooonal", menu2);
     owner1.restaurant = restaurant1;
     owner2.restaurant = restaurant2;
@@ -531,6 +613,7 @@ void InitializeSampleData()
     users.Add(customer2);
     restaurants.Add(restaurant1);
     restaurants.Add(restaurant2);
+    Console.WriteLine(owner1.restaurant);
 }//initalise, sample data should be pointed to subclasses
 InitializeSampleData(); // Popluate
 LoginHandler(); // Main entry point of the application

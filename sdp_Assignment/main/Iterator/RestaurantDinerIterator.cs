@@ -2,7 +2,7 @@
 
 namespace sdp_Assignment.main.Iterator
 {
-    internal class RestaurantMenuIterator : Iterator
+    internal class RestaurantMenuIterator : IMenuIterator
     {
         private List<MenuComponent> myMenu;
         private int position = 0;
